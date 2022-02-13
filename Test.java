@@ -10,6 +10,7 @@ public class Test {
         test.viewInventory();
 
     }
+
     // CRUD Operation Tests 
     // Tests that open and access SQL database
 
@@ -19,4 +20,5 @@ public class Test {
     // Sale price, Supplier ID
      
     // Tests that we can access and delete what was updated
+
 }
