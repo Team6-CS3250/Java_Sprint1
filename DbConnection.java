@@ -11,6 +11,14 @@ public class DbConnection {
 			System.out.println("Connected");
 		} catch (ClassNotFoundException | SQLException e) {
 			System.out.println(e.toString());
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+			} catch (SQLException ex) {
+				System.out.println(ex.toString());
+			}
 		}
 		return con;
 	}
@@ -56,8 +64,7 @@ public class DbConnection {
 				String supplier_id = rs.getString(5);
 				inventoryDataList.add(new InventoryData(product_id, quantity, wholesale_cost, sale_price, supplier_id));
 			}
-		} catch(SQLException e)
-		{
+		} catch(SQLException e) {
 			System.out.println(e.toString());
 		} finally {
 			try {
@@ -70,5 +77,54 @@ public class DbConnection {
 			}
 		}
 		return inventoryDataList;
+	}
+
+	// Update the full document
+	public static void update(String product_id, int quantity, double wholesale_cost, double sale_price, String supplier_id) {
+
+		String queryUp = "Update Inventory(product_id, quantity, wholesale_cost, sale_price, supplier_id) VALUES(?, ?, ?, ?, ?)";
+		
+		Connection con = connect();
+		PreparedStatement psUp = null;
+
+		try {
+			psUp = con.prepareStatement(queryUp);
+
+			psUp.setString(1,  product_id);
+			psUp.setInt(2, quantity);
+			psUp.setDouble(3, wholesale_cost);
+			psUp.setDouble(4, sale_price);
+			psUp.setString(5, supplier_id);
+
+			psUp.executeUpdate();
+			System.out.println("Updated!");
+
+		} catch(SQLException e) {
+			System.out.println(e.toString());
+		}
+	}
+
+	// Delete full document
+	public static void delete(String product_id, int quantity, double wholesale_cost, double sale_price, String supplier_id) {
+		String queryDel = "Delete all database entries!";
+
+		Connection con = connect();
+		PreparedStatement psDel = null;
+
+		try {
+			psDel = con.prepareStatement(queryDel);
+
+			psDel.setString(1,  product_id);
+			psDel.setInt(2, quantity);
+			psDel.setDouble(3, wholesale_cost);
+			psDel.setDouble(4, sale_price);
+			psDel.setString(5, supplier_id);
+
+			psDel.executeUpdate();
+			System.out.println("Deleted!");
+
+		} catch(SQLException e) {
+			System.out.println(e.toString());
+		}
 	}
 }
