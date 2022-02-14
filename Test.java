@@ -4,10 +4,13 @@ SalePrice, or SupplierID*/
 public class Test {
 
     public static void main(String[] args){
-        //Test of .txt file
-        InventoryData test = new InventoryData();
-        //test.testFile();
+
+
+        InventoryData test = new InventoryData("", 0, 0, 0, "");
+
         test.viewInventory();
+
+
 
     }
 

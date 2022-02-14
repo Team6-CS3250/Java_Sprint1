@@ -9,47 +9,64 @@ import java.io.*;
 
 
 public class InventoryData {
+    String product_id = "";
+    int quantity = 0;
+    double wholesale_cost = 0;
+    double sale_price = 0;
+    String supplier_id = "";
 
-    String productID = "";
-    String quantity = "";
-    double wholesaleCost = 0;
-    double salePrice = 0;
-    String supplierID = "";
+    public InventoryData(String product_id, int quantity, double wholesale_cost, double sale_price,String supplier_id){
+
+    }
+
     //This method calls the other two methods to run and has a while loop print
     public void viewInventory() {
         boolean showInv = true;
         if(showInv) {
             typeProductID();
-            response(productID);
+            response(product_id);
         }
     }
     //This method ask the user for an input
     public String typeProductID() {
         Scanner manager = new Scanner(System.in);
         System.out.println("Please enter a 12 digit product ID. (Capitalization matters)");
-        String productID = manager.nextLine();
-        return productID;
+        String product_id = manager.nextLine();
+        //System.out.println(product_id); Tested to make sure getting right inputs back
+        return product_id;
 
     }
     //This is the method that writes the info from the first file to a second file for easy printing
     public void response(String r) {
-        productID = r;
+        product_id = r;
         try{
-            FileWriter writer = new FileWriter("ThisInventory.txt");//Calls in proper stuff for uploading the file to write off it
-            File fullList = new File("inventory_team6.txt");//New file to be written to
-            Scanner writeThis = new Scanner(fullList);//Scanner to write to file
+            FileWriter writer = new FileWriter("ThisInventory.txt");//New file to be written to
+            File fullList = new File("inventory_team6.txt");//Calls in proper stuff for uploading the file to write off it
+            Scanner writeThis = new Scanner(fullList);//Scanner to read from file
+            int lineNum = 0;
             //While loop to write the file
             while(writeThis.hasNextLine()){
                 String thisID = writeThis.nextLine();
+                lineNum++;
+                //System.out.println(writeThis.nextLine());
+                //System.out.println(thisID);//Test to see what's in this string
                 /*I want this if statement to find r and write that line of the spreadsheet.
                  * This functionality isn't achieved yet. I think what needs to be done is the Scanner
                  * needs to know to stop and only print the line that has the actual product ID on it. */
-                if(thisID.contains(r)){
+
+                if(thisID.contains(r)  && lineNum == 2 ) {
+                    //Below print statement formatted to show on console
+                    System.out.print("                                    Product ID      Quantity       Wholesale Cost       Sale Price      Supplier ID");
                     writer.write("Here is your inventory information " + thisID);
                 }
-            }
 
-        } catch (FileNotFoundException e) {
+
+            }
+            //Scanner and writer need to be closed to show the written to file
+            writer.close();
+            writeThis.close();
+        }
+        catch (FileNotFoundException e) {
             System.out.println("File not found");
             e.printStackTrace();
         } catch (IOException e) {
@@ -60,7 +77,7 @@ public class InventoryData {
             File show = new File("ThisInventory.txt");
             Scanner reader = new Scanner(show);
             boolean isPrinting = true;
-            System.out.println("\n\n");
+            //System.out.println("\n\n");
             //while loop prints new .txt file
             while(isPrinting) {
                 String line = reader.nextLine();

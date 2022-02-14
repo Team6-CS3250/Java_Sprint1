@@ -23,7 +23,7 @@ public class DbConnection {
 		try {
 			String query = "INSERT INTO Inventory(product_id, quantity, wholesale_cost, sale_price, supplier_id) VALUES(?, ?, ?, ?, ?)";
 			ps = con.prepareStatement(query);
-			ps.setString(1,  product_id);
+			ps.setString(1, product_id);
 			ps.setInt(2, quantity);
 			ps.setDouble(3, wholesale_cost);
 			ps.setDouble(4, sale_price);
